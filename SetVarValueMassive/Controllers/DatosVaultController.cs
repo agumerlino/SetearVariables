@@ -43,7 +43,7 @@ namespace SetVarValueMassive.Controllers
                 {
                     messageOk = $"Lista de rutas de archivos generada correctamente. Cantidad de datos: {fileNames.Count}";
                 }
-                else messageError = "Error al generar lista de rutas de archivos";                   
+                else messageError = $"Error al generar lista de rutas de archivos. ";                   
                 if(messageOk != "")
                 {
                     Errors.ShowMessage(messageOk, currentController);                 
@@ -55,8 +55,8 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(),"Error al momento de obtener rutas de archivos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Errors.ShowMessage(ex.ToString(), currentController);
+                MessageBox.Show(ex.Message,"Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Errors.ShowMessage(ex.Message, currentController);
             }            
             return fileNames;
         }
@@ -96,8 +96,8 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al momento de obtner IDs de archivos dentro del vault", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Errors.ShowMessage(ex.ToString(), currentController);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Errors.ShowMessage(ex.Message, currentController);
             }
             
             return idsArchivos;
@@ -139,8 +139,8 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al momento de obtener las variables en el vault", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Errors.ShowMessage(ex.ToString(), currentController);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Errors.ShowMessage(ex.Message, currentController);
             }
             
             return nombresVariablesVault;
@@ -186,8 +186,8 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al obtner ID de la parentFolder de su archivo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Errors.ShowMessage(ex.ToString(), currentController);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Errors.ShowMessage(ex.Message, currentController);
             }            
             return idParentFolder;
         }

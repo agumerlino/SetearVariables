@@ -27,7 +27,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al obtener lector de Excel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Errors.ShowMessage(messageOk, currentController);
                 return null;
             }            
@@ -49,7 +49,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al leer tabla de datos del Excel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Errors.ShowMessage(messageOk, currentController);
                 return null;
             }
@@ -87,7 +87,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al generar lista de ID a partir del Excel" , MessageBoxButtons.OK, MessageBoxIcon.Error);                
+                MessageBox.Show(ex.Message, "Error " , MessageBoxButtons.OK, MessageBoxIcon.Error);                
                 return null;
             }
         }
@@ -123,7 +123,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al obtener variables del Excel", MessageBoxButtons.OK, MessageBoxIcon.Error);        
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);        
                 return null;
             }
         }
@@ -158,7 +158,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error de verificacion de columna contenedora de IDs", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false; 
             }
         }
@@ -188,7 +188,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al obtener el numero de filas del Excel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return 0;
             }
         }
@@ -242,7 +242,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al obtener valor de celda", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }
@@ -283,7 +283,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al obtener datos del Excel", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }

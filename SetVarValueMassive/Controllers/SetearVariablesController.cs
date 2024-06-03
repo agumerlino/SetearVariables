@@ -16,11 +16,12 @@ namespace SetVarValueMassive.Controllers
         private DatosVaultController vaultController = new DatosVaultController();
         private ExcelController excelController = new ExcelController(); 
         private IEdmVault5 vault1 = new EdmVault5();
-
+        public event EventHandler<int> ProgressChanged;
 
         //CHECKIN, SETEO Y CHECKOUT DE VARIABLES 
         public void SetearVariables(List<int> idsArchivos, List<int> excelIDs, List<string> nombresVariablesExcel, List<string> fileNames, bool workWithFiles, string filePath, int formHandle)
         {
+
             string cellValue;
             IEdmVault7 vault = (IEdmVault7)vault1;            
             IEdmBatchUnlock2 batchUnlocker;
@@ -35,7 +36,8 @@ namespace SetVarValueMassive.Controllers
             EdmSelectionObject poSel;
             string str;            
             int idVar;          
-            bool unlock = false;
+            bool unlock = false;            
+
             try
             {
                 if (!vault.IsLoggedIn)
@@ -68,7 +70,8 @@ namespace SetVarValueMassive.Controllers
                                     //Traer el archivo
                                     file.LockFile(parentFolderID, formHandle, 0);
                                 }
-                                messageOk = $"Archivo obtenido correctamente: {file.Name}";
+                                messageOk = $"Archivo obtenido correctamente: {file.Name}";                                
+                                OnProgressChanged(10);
                             }
                             else messageError = $"Error al obtener el archivo";
                             //Envio mensajes de exito o de error a la consola
@@ -94,7 +97,8 @@ namespace SetVarValueMassive.Controllers
                                 if (cellValue != null)
                                 {
                                     messageOk = $"Valor a modificar obtenido correctamente: {cellValue}";
-                                    Errors.ShowMessage(messageOk, currentController);
+                                    Errors.ShowMessage(messageOk, currentController);                                    
+                                    OnProgressChanged(35);
                                 }
                                 if (workWithFiles)
                                 {
@@ -124,7 +128,7 @@ namespace SetVarValueMassive.Controllers
                         MessageBox.Show(messageError);
                     }
                 }
-
+                OnProgressChanged(45);
                 //Manejo de errores al momento de actualizar variables
                 EdmBatchError2[] errors;
                 int errorSize = batchUpdate.CommitUpdate(out errors, null);
@@ -139,7 +143,9 @@ namespace SetVarValueMassive.Controllers
                 }
                 if (!workWithFiles)
                 {
-                    messageOk = $"Seteo de variables de carpeta realizado correctamente";                    
+                    messageOk = $"Seteo de variables de carpeta realizado correctamente";
+                    
+                    OnProgressChanged(100);
                     MessageBox.Show(messageOk);
                     if (messageOk != "")
                     {
@@ -169,6 +175,7 @@ namespace SetVarValueMassive.Controllers
                                 ppoSelection[h].mlProjID = folder.ID;
                                 h++;
                             }
+                            OnProgressChanged(46);
                         }
                         batchUnlocker.AddSelection((EdmVault5)vault, ref ppoSelection);
 
@@ -180,17 +187,19 @@ namespace SetVarValueMassive.Controllers
                             fileList = (IEdmSelectionList6)batchUnlocker.GetFileList((int)EdmUnlockFileListFlag.Euflf_GetUnlocked + (int)EdmUnlockFileListFlag.Euflf_GetUndoLocked + (int)EdmUnlockFileListFlag.Euflf_GetUnprocessed);
 
                             aPos = fileList.GetHeadPosition();
-
+                            OnProgressChanged(60);
                             str = "Getting " + nbrFiles + " files: ";
                             while (!(aPos.IsNull))
                             {
                                 fileList.GetNext2(aPos, out poSel);
                                 str = str + "\r\n" + poSel.mbsPath;
-                            }
+                            }                            
+                            OnProgressChanged(50);
                             MessageBox.Show($"Lista de archivos a obtener {Environment.NewLine} {str}");
 
                             batchUnlocker.UnlockFiles(formHandle, null);
                             unlock = true;
+                            OnProgressChanged(75);
                         }
                     }
                     catch (System.Runtime.InteropServices.COMException ex)
@@ -214,10 +223,12 @@ namespace SetVarValueMassive.Controllers
                                         cellValue = excelController.ObtenerValorCelda(filePath, variable, id);
                                         SetearRev(file, cellValue);
                                     }
-                                }
+                                }                                
+                                OnProgressChanged(85);
                             }
                         }
-                        messageOk = $"Seteo de variables de archivos realizado correctamente";
+                        messageOk = $"Seteo de variables de archivos realizado correctamente";                        
+                        OnProgressChanged(100);
                         MessageBox.Show(messageOk);
                         Errors.ShowMessage(messageOk, currentController);
                     }
@@ -225,7 +236,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al setear variables" , MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error " , MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
         }
@@ -319,9 +330,12 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error al actualizar variable Revision", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
+        protected virtual void OnProgressChanged(int progress)
+        {
+            ProgressChanged?.Invoke(this, progress);
+        }
     }
 }

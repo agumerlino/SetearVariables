@@ -24,12 +24,12 @@ namespace SetVarValueMassive.Utilities
             {
                 mensajesVault.Add(message);
             }
-            if((message == "Seteo de variables de carpeta realizado correctamente") ||
+            if ((message == "Seteo de variables de carpeta realizado correctamente") ||
                 message == "Seteo de variables de archivos realizado correctamente")
             {
                 ShowConsoleMessage(mensajesVault, "VAULTCONTROLLER");
                 ShowConsoleMessage(mensajesExcel, "EXCELCONTROLLER");
-                ShowConsoleMessage(mensajesSeteo, "SETEOCONTROLLER");                
+                ShowConsoleMessage(mensajesSeteo, "SETEOCONTROLLER");
             }
         }
 

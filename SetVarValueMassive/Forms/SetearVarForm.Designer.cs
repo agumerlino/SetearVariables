@@ -36,11 +36,13 @@
             this.lblEstado = new System.Windows.Forms.Label();
             this.rdFiles = new System.Windows.Forms.RadioButton();
             this.rdFolder = new System.Windows.Forms.RadioButton();
+            this.progressBarSetearVar = new System.Windows.Forms.ProgressBar();
+            this.lblSeteoCompleted = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnSelectFile
             // 
-            this.btnSelectFile.Location = new System.Drawing.Point(165, 134);
+            this.btnSelectFile.Location = new System.Drawing.Point(172, 121);
             this.btnSelectFile.Name = "btnSelectFile";
             this.btnSelectFile.Size = new System.Drawing.Size(140, 47);
             this.btnSelectFile.TabIndex = 0;
@@ -50,7 +52,7 @@
             // 
             // btnSetVar
             // 
-            this.btnSetVar.Location = new System.Drawing.Point(31, 235);
+            this.btnSetVar.Location = new System.Drawing.Point(31, 219);
             this.btnSetVar.Name = "btnSetVar";
             this.btnSetVar.Size = new System.Drawing.Size(426, 56);
             this.btnSetVar.TabIndex = 1;
@@ -61,7 +63,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(140, 118);
+            this.label1.Location = new System.Drawing.Point(142, 90);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(196, 13);
             this.label1.TabIndex = 2;
@@ -69,7 +71,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(352, 318);
+            this.button3.Location = new System.Drawing.Point(352, 335);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(105, 23);
             this.button3.TabIndex = 3;
@@ -84,7 +86,7 @@
             // lblEstado
             // 
             this.lblEstado.AutoSize = true;
-            this.lblEstado.Location = new System.Drawing.Point(207, 194);
+            this.lblEstado.Location = new System.Drawing.Point(213, 186);
             this.lblEstado.Name = "lblEstado";
             this.lblEstado.Size = new System.Drawing.Size(0, 13);
             this.lblEstado.TabIndex = 4;
@@ -113,11 +115,30 @@
             this.rdFolder.UseVisualStyleBackColor = true;
             this.rdFolder.CheckedChanged += new System.EventHandler(this.rdFolder_CheckedChanged);
             // 
+            // progressBarSetearVar
+            // 
+            this.progressBarSetearVar.Location = new System.Drawing.Point(31, 293);
+            this.progressBarSetearVar.Name = "progressBarSetearVar";
+            this.progressBarSetearVar.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.progressBarSetearVar.Size = new System.Drawing.Size(426, 23);
+            this.progressBarSetearVar.TabIndex = 7;
+            // 
+            // lblSeteoCompleted
+            // 
+            this.lblSeteoCompleted.AutoSize = true;
+            this.lblSeteoCompleted.Location = new System.Drawing.Point(311, 303);
+            this.lblSeteoCompleted.Name = "lblSeteoCompleted";
+            this.lblSeteoCompleted.Size = new System.Drawing.Size(136, 13);
+            this.lblSeteoCompleted.TabIndex = 8;
+            this.lblSeteoCompleted.Text = "Variables setting completed";
+            // 
             // SetearVarForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(488, 370);
+            this.Controls.Add(this.lblSeteoCompleted);
+            this.Controls.Add(this.progressBarSetearVar);
             this.Controls.Add(this.rdFolder);
             this.Controls.Add(this.rdFiles);
             this.Controls.Add(this.lblEstado);
@@ -144,5 +165,7 @@
         private System.Windows.Forms.Label lblEstado;
         private System.Windows.Forms.RadioButton rdFiles;
         private System.Windows.Forms.RadioButton rdFolder;
+        private System.Windows.Forms.ProgressBar progressBarSetearVar;
+        private System.Windows.Forms.Label lblSeteoCompleted;
     }
 }

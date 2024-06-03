@@ -36,6 +36,8 @@ namespace SetVarValueMassive
         {
             btnSelectFile.Enabled = false;
             btnSetVar.Enabled = false;
+            progressBarSetearVar.Visible = false;
+            lblSeteoCompleted.Visible = false;
             IEdmVault7 vault = (IEdmVault7)vault1;
             if (!vault.IsLoggedIn)
             {
@@ -45,8 +47,9 @@ namespace SetVarValueMassive
 
         private void button1_Click(object sender, EventArgs e)
         {
+            lblSeteoCompleted.Visible = false;
+            lblEstado.Text = "";
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
             openFileDialog1.Multiselect = false;
             openFileDialog1.Filter = "Archivos de Excel|*.xls;*.xlsx";
 
@@ -116,6 +119,7 @@ namespace SetVarValueMassive
 
         private void btnSetVar_Click(object sender, EventArgs e)
         {
+            lblSeteoCompleted.Visible = false;
             List<List<string>> datosExcel = excelController.LeerExcel(filePath);
             string nombreExcel = Path.GetFileName(filePath);
             VistaPreviaExcelForm form2 = new VistaPreviaExcelForm(datosExcel, numRows,nombreExcel);
@@ -124,14 +128,27 @@ namespace SetVarValueMassive
             // Verificar la decisión del usuario en el segundo formulario
             if (result == DialogResult.OK) 
             {
+                progressBarSetearVar.Visible = true;
+                setearVariablesController.ProgressChanged += SetearVariablesController_ProgressChanged;
                 // Continuar con el proceso
                 setearVariablesController.SetearVariables(idsArchivos, excelIDs, nombresVariablesExcel, fileNames, workWithFiles, filePath, this.Handle.ToInt32());
+                if(progressBarSetearVar.Value == 100)
+                {
+                    lblSeteoCompleted.ForeColor = Color.Green;
+                    progressBarSetearVar.Visible = false;
+                    lblSeteoCompleted.Visible = true;
+                }
             }
             else if (result == DialogResult.Cancel) 
             {
             }
-        }            
+        }
 
+        private void SetearVariablesController_ProgressChanged(object sender, int progress)
+        {
+            // Actualiza el valor de la ProgressBar
+            progressBarSetearVar.Value = progress;
+        }
         private void rdFiles_CheckedChanged(object sender, EventArgs e)
         {
             if (rdFiles.Checked)
