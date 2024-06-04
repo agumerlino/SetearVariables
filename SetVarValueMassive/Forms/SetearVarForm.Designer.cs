@@ -31,7 +31,7 @@
             this.btnSelectFile = new System.Windows.Forms.Button();
             this.btnSetVar = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.lblEstado = new System.Windows.Forms.Label();
             this.rdFiles = new System.Windows.Forms.RadioButton();
@@ -42,6 +42,8 @@
             // 
             // btnSelectFile
             // 
+            this.btnSelectFile.AutoEllipsis = true;
+            this.btnSelectFile.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSelectFile.Location = new System.Drawing.Point(172, 121);
             this.btnSelectFile.Name = "btnSelectFile";
             this.btnSelectFile.Size = new System.Drawing.Size(140, 47);
@@ -52,6 +54,7 @@
             // 
             // btnSetVar
             // 
+            this.btnSetVar.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnSetVar.Location = new System.Drawing.Point(31, 219);
             this.btnSetVar.Name = "btnSetVar";
             this.btnSetVar.Size = new System.Drawing.Size(426, 56);
@@ -69,15 +72,16 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Select an Excel document to continue...";
             // 
-            // button3
+            // btnExit
             // 
-            this.button3.Location = new System.Drawing.Point(352, 335);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(105, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Exit";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btnExit.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnExit.Location = new System.Drawing.Point(352, 335);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(105, 23);
+            this.btnExit.TabIndex = 3;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
             // openFileDialog1
             // 
@@ -120,7 +124,7 @@
             this.progressBarSetearVar.Location = new System.Drawing.Point(31, 293);
             this.progressBarSetearVar.Name = "progressBarSetearVar";
             this.progressBarSetearVar.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.progressBarSetearVar.Size = new System.Drawing.Size(426, 23);
+            this.progressBarSetearVar.Size = new System.Drawing.Size(426, 10);
             this.progressBarSetearVar.TabIndex = 7;
             // 
             // lblSeteoCompleted
@@ -142,12 +146,12 @@
             this.Controls.Add(this.rdFolder);
             this.Controls.Add(this.rdFiles);
             this.Controls.Add(this.lblEstado);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnSetVar);
             this.Controls.Add(this.btnSelectFile);
             this.Name = "SetearVarForm";
-            this.Text = "Setting variables";
+            this.Text = "Variable setter tool";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.SetearVarForm_Load);
             this.ResumeLayout(false);
@@ -160,7 +164,7 @@
         private System.Windows.Forms.Button btnSelectFile;
         private System.Windows.Forms.Button btnSetVar;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label lblEstado;
         private System.Windows.Forms.RadioButton rdFiles;

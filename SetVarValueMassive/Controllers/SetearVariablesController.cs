@@ -17,6 +17,8 @@ namespace SetVarValueMassive.Controllers
         private ExcelController excelController = new ExcelController(); 
         private IEdmVault5 vault1 = new EdmVault5();
         public event EventHandler<int> ProgressChanged;
+        StringBuilder mensajeErrores = new StringBuilder();
+        List<string> listaErrores = new List<string>();
 
         //CHECKIN, SETEO Y CHECKOUT DE VARIABLES 
         public void SetearVariables(List<int> idsArchivos, List<int> excelIDs, List<string> nombresVariablesExcel, List<string> fileNames, bool workWithFiles, string filePath, int formHandle)
@@ -37,7 +39,8 @@ namespace SetVarValueMassive.Controllers
             string str;            
             int idVar;          
             bool unlock = false;            
-
+            
+            
             try
             {
                 if (!vault.IsLoggedIn)
@@ -116,7 +119,7 @@ namespace SetVarValueMassive.Controllers
                     else
                     {
                         //Envio mensajes de exito o de error a la consola
-                        messageError = $"Error. El id {id} no se encuentra en el vault, por lo tanto se omitirá esta fila";
+                        messageError = $"Error. El id {id} no se encuentra en el vault, por lo tanto se omitirá esta fila {Environment.NewLine}";
                         if (messageOk != "")
                         {
                             Errors.ShowMessage(messageOk, currentController);
@@ -125,9 +128,17 @@ namespace SetVarValueMassive.Controllers
                         {
                             Errors.ShowMessage(messageError, currentController);
                         }
-                        MessageBox.Show(messageError);
+                        listaErrores.Add(messageError);                        
                     }
                 }
+                foreach (string error in listaErrores)
+                {
+                    mensajeErrores.AppendLine(error);
+                }
+                if(mensajeErrores.Length > 0)
+                {
+                    MessageBox.Show(mensajeErrores.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }               
                 OnProgressChanged(45);
                 //Manejo de errores al momento de actualizar variables
                 EdmBatchError2[] errors;
@@ -139,14 +150,14 @@ namespace SetVarValueMassive.Controllers
                     {
                         errorMessage.AppendLine($"Error: {error}");
                     }
-                    MessageBox.Show(errorMessage.ToString(), "Error de actualización de variables");
+                    MessageBox.Show(errorMessage.ToString(), "Error de actualización de variables", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 if (!workWithFiles)
                 {
                     messageOk = $"Seteo de variables de carpeta realizado correctamente";
                     
                     OnProgressChanged(100);
-                    MessageBox.Show(messageOk);
+                    MessageBox.Show(messageOk, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     if (messageOk != "")
                     {
                         Errors.ShowMessage(messageOk, currentController);
@@ -188,14 +199,14 @@ namespace SetVarValueMassive.Controllers
 
                             aPos = fileList.GetHeadPosition();
                             OnProgressChanged(60);
-                            str = "Getting " + nbrFiles + " files: ";
+                            str = "Getting " + fileList.Count + " files: ";
                             while (!(aPos.IsNull))
                             {
                                 fileList.GetNext2(aPos, out poSel);
-                                str = str + "\r\n" + poSel.mbsPath;
+                                str = str + $"{Environment.NewLine}" + poSel.mbsPath;
                             }                            
                             OnProgressChanged(50);
-                            MessageBox.Show($"Lista de archivos a obtener {Environment.NewLine} {str}");
+                            MessageBox.Show($"{str}", "Lista de archivos a obtener", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             batchUnlocker.UnlockFiles(formHandle, null);
                             unlock = true;
@@ -210,6 +221,8 @@ namespace SetVarValueMassive.Controllers
                     //Pregunto si se registraron los archivos
                     if (unlock)
                     {
+                        mensajeErrores.Clear();
+                        listaErrores.Clear();
                         // Vuelvo a recorrer para setear variable de revision, despues de haber registrado
                         foreach (int id in excelIDs)
                         {
@@ -221,22 +234,30 @@ namespace SetVarValueMassive.Controllers
                                     if (variable == "Revision")
                                     {
                                         cellValue = excelController.ObtenerValorCelda(filePath, variable, id);
-                                        SetearRev(file, cellValue);
+                                        SetearRev(file, cellValue);                                        
                                     }
                                 }                                
                                 OnProgressChanged(85);
                             }
                         }
+                        foreach (string error in listaErrores)
+                        {
+                            mensajeErrores.AppendLine(error);
+                        }
+                        if (mensajeErrores.Length > 0)
+                        {
+                            MessageBox.Show(mensajeErrores.ToString(), "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }                        
                         messageOk = $"Seteo de variables de archivos realizado correctamente";                        
                         OnProgressChanged(100);
-                        MessageBox.Show(messageOk);
+                        MessageBox.Show(messageOk, "", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Errors.ShowMessage(messageOk, currentController);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error " , MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error" , MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
         }
@@ -262,7 +283,7 @@ namespace SetVarValueMassive.Controllers
                     // Si no hay un esquema de revisión disponible para ese estado, salir de la función
                     if (revisionSchemaId == 0)
                     {
-                        MessageBox.Show("El archivo " + file.Name + " no posee ningun esquema de revision segun su estado en el flujo de trabajo");
+                        MessageBox.Show("El archivo " + file.Name + " no posee ningun esquema de revision segun su estado en el flujo de trabajo","Error ",MessageBoxButtons.OK, MessageBoxIcon.Error);
                         messageError = $"Error al obtener el esquema de revision del archivo {file.Name}";
                         if (messageError != "")
                         {
@@ -315,9 +336,10 @@ namespace SetVarValueMassive.Controllers
                     }
                 }
                 else
-                {
-                    messageError = $"Error. El valor de revision para el archivo {file.Name} no es valido, por lo tanto se omitira el seteo interno de esta variable";
-                    MessageBox.Show(messageError);
+                {                    
+                    messageError = $"Error. El valor de revision para el archivo {file.Name} no es valido, por lo tanto se omitira el seteo interno de esta variable {Environment.NewLine}";
+                    listaErrores.Add(messageError);
+                    
                     if (messageOk != "")
                     {
                         Errors.ShowMessage(messageOk, currentController);
@@ -326,7 +348,7 @@ namespace SetVarValueMassive.Controllers
                     {
                         Errors.ShowMessage(messageError, currentController);
                     }
-                }                
+                }              
             }
             catch (Exception ex)
             {

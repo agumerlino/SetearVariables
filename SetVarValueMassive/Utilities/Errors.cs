@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExcelDataReader.Log;
+using System;
 using System.Collections.Generic;
 
 namespace SetVarValueMassive.Utilities
@@ -25,7 +26,8 @@ namespace SetVarValueMassive.Utilities
                 mensajesVault.Add(message);
             }
             if ((message == "Seteo de variables de carpeta realizado correctamente") ||
-                message == "Seteo de variables de archivos realizado correctamente")
+                message == "Seteo de variables de archivos realizado correctamente" ||
+                message.Contains("No se encontro una columna referida a los ID de los archivos"))
             {
                 ShowConsoleMessage(mensajesVault, "VAULTCONTROLLER");
                 ShowConsoleMessage(mensajesExcel, "EXCELCONTROLLER");

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using EPDM.Interop.epdm;
 using SetVarValueMassive.Controllers;
 using SetVarValueMassive.Forms;
+using SetVarValueMassive.Utilities;
 
 namespace SetVarValueMassive
 {
@@ -26,7 +27,9 @@ namespace SetVarValueMassive
         public ExcelController excelController = new ExcelController();
         public DatosVaultController vaultController = new DatosVaultController();
         public SetearVariablesController setearVariablesController = new SetearVariablesController();
-
+        string messageError = "";
+        string messageOk = "";
+        string currentController = "EXCELCONTROLLER";
         public SetearVarForm()
         {
             InitializeComponent();
@@ -66,6 +69,7 @@ namespace SetVarValueMassive
                     lblEstado.Text = "File correct!";
                     lblEstado.ForeColor = Color.Green;
                     btnSetVar.Enabled = true;
+                    messageOk = "Estructura del archivo Excel correcta.";
                 }
                 else
                 {
@@ -73,6 +77,10 @@ namespace SetVarValueMassive
                     lblEstado.ForeColor = Color.Red;
                     btnSetVar.Enabled = false;
                 }
+            }
+            if (messageOk != "")
+            {
+                Errors.ShowMessage(messageOk, currentController);
             }
         }
         //Verifico la estructura del archivo excel y lleno listas correspondientes 
@@ -89,8 +97,7 @@ namespace SetVarValueMassive
                 nombresVariablesExcel.Clear();
                 nombresVariablesVault.Clear();
                 fileNames.Clear();
-            }
-            
+            }            
 
             // Llenar las listas
             excelIDs = excelController.GenerarListaDeIDExcel(filePath);
@@ -105,12 +112,21 @@ namespace SetVarValueMassive
             variablesCorrectas = nombresVariablesExcel.All(var => nombresVariablesVault.Contains(var));
             if (variablesCorrectas == false)
             {
-                MessageBox.Show("Las variables detalladas en su archivo de excel no existen o no coinciden con variables reales en el vault, elija orto archivo");
+                messageError = $"Error. Las variables detalladas en su archivo de excel no existen o no coinciden con variables reales en el vault, elija orto archivo.{Environment.NewLine}";                
             }
             columnaID = excelController.VerificarColumnaID(filePath);
             if(columnaID == false)
             {
-                MessageBox.Show("No se encontro una columna referida a los ID de los archivos");
+                messageError += "No se encontro una columna referida a los ID de los archivos.";
+                MessageBox.Show(messageError, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            if (messageOk != "")
+            {
+                Errors.ShowMessage(messageOk, currentController);
+            }
+            if (messageError != "")
+            {
+                Errors.ShowMessage(messageError, currentController);
             }
             bool estructuraCorrecta = columnaID && variablesCorrectas;
 
@@ -137,6 +153,10 @@ namespace SetVarValueMassive
                     lblSeteoCompleted.ForeColor = Color.Green;
                     progressBarSetearVar.Visible = false;
                     lblSeteoCompleted.Visible = true;
+                    btnSetVar.Enabled = false;
+                    btnSelectFile.Enabled = false;
+                    rdFiles.Enabled = false;    
+                    rdFolder.Enabled = false;   
                 }
             }
             else if (result == DialogResult.Cancel) 
@@ -169,7 +189,7 @@ namespace SetVarValueMassive
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }

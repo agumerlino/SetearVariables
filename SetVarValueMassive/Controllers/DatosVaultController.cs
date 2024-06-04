@@ -125,7 +125,7 @@ namespace SetVarValueMassive.Controllers
                 nombresVariablesVault.Add("ID");
                 if (nombresVariablesVault.Count > 0)
                 {
-                    messageOk = $"Lista de variables dentro del vault generada correctamente: Cantidad de datos: {nombresVariablesVault.Count}";
+                    messageOk = $"Lista de variables dentro del vault generada correctamente. Cantidad de datos: {nombresVariablesVault.Count}";
                 }
                 else messageError = "Error al generar lista de variables";
                 if (messageOk != "")
@@ -139,7 +139,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Errors.ShowMessage(ex.Message, currentController);
             }
             

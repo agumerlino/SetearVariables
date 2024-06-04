@@ -27,7 +27,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Errors.ShowMessage(messageOk, currentController);
                 return null;
             }            
@@ -49,7 +49,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Errors.ShowMessage(messageOk, currentController);
                 return null;
             }
@@ -87,7 +87,7 @@ namespace SetVarValueMassive.Controllers
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error " , MessageBoxButtons.OK, MessageBoxIcon.Error);                
+                MessageBox.Show(ex.Message, "Error" , MessageBoxButtons.OK, MessageBoxIcon.Error);                
                 return null;
             }
         }
